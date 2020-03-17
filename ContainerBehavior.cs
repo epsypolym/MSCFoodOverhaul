@@ -8,6 +8,7 @@ namespace FoodOverhaul
     {
         public GameObject item;
         public int amount;
+        private Vector3 itemspawnoffset;
 
         InteractionRaycast foodInteraction;
         Collider selfCollider;
@@ -23,6 +24,9 @@ namespace FoodOverhaul
             GUIuse = FoodOverhaul.GUIuse;
             selfCollider = GetComponent<Collider>();
             self = transform.gameObject;
+            itemspawnoffset = gameObject.transform.GetChild(0).position;
+
+
         }
 
         // Update is called once per frame
@@ -47,7 +51,7 @@ namespace FoodOverhaul
             if (amount > 0)
             {
                 GameObject instantiatedobject = GameObject.Instantiate(item) as GameObject;
-                instantiatedobject.transform.position = gameObject.transform.position;
+                instantiatedobject.transform.position = gameObject.transform.position + itemspawnoffset;
                 LoadAssets.MakeGameObjectPickable(instantiatedobject);
                 amount -= 1;
             }

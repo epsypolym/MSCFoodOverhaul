@@ -22,7 +22,7 @@ namespace FoodOverhaul
         void Start()
         {
             isDrinking = false;
-            layerMask = LayerMask.GetMask("Parts");
+            layerMask = LayerMask.GetMask("Parts","Wheel");
             hitInfo = new RaycastHit();
             playerObject = GameObject.Find("PLAYER");
             bottleHolding = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Drink/Hand/HandBottles/hand_rigged");
