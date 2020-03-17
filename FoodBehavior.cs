@@ -19,19 +19,18 @@ namespace FoodOverhaul
 
         InteractionRaycast foodInteraction;
         Collider selfCollider;
-        GameObject self;
         PlayerFoodSystems pfd;
         FsmBool GUIuse;
 
         bool mouseOver = false;
+
         // Use this for initialization
         void Start()
         {
             foodInteraction = FoodOverhaul.foodInteraction;
             GUIuse = FoodOverhaul.GUIuse;
             selfCollider = GetComponent<Collider>();
-            self = transform.gameObject;
-            pfd = foodInteraction.playerObject.GetComponent<PlayerFoodSystems>();
+            pfd = FoodOverhaul.PLAYER.GetComponent<PlayerFoodSystems>();
         }
 
         // Update is called once per frame
@@ -64,8 +63,7 @@ namespace FoodOverhaul
             pfd.VitaminBValue += VitaminBValue;
             pfd.VitaminCValue += VitaminCValue;
             pfd.VitaminDValue += CalorieValue;
-            GameObject.Destroy(self);
+            GameObject.Destroy(gameObject);
         }
-
     }
 }

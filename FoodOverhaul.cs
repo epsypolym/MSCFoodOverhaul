@@ -16,6 +16,8 @@ namespace FoodOverhaul
         public override bool UseAssetsFolder => true;
         public static InteractionRaycast foodInteraction;
         public static FsmBool GUIuse;
+        public static GameObject PLAYER;
+
         public override void OnNewGame()
         {
             // Called once, when starting a New Game, you can reset your saves here
@@ -23,20 +25,22 @@ namespace FoodOverhaul
 
         public override void OnLoad()
         {
-            foodInteraction = GameObject.Find("PLAYER").AddComponent<InteractionRaycast>();
+            PLAYER = GameObject.Find("PLAYER");
+            foodInteraction = PLAYER.AddComponent<InteractionRaycast>();
+            PLAYER.AddComponent<PlayerFoodSystems>();
             GUIuse = PlayMakerGlobals.Instance.Variables.GetFsmBool("GUIuse");
-            //delete this later, shit code aaa
-            GameObject.Find("PLAYER").AddComponent<PlayerFoodSystems>();
+
             //delet zone over
             AssetBundle ab = LoadAssets.LoadBundle(this, "foodoverhaul.unity3d");
+            GameObject orangeprefab = ab.LoadAsset("orange.prefab") as GameObject;
             GameObject peas = ab.LoadAsset("canned pea soup.prefab") as GameObject;
             GameObject fishsticc = ab.LoadAsset("fish sticks.prefab") as GameObject;
             GameObject colabruh = ab.LoadAsset("cola.prefab") as GameObject;
-            GameObject sodabruh = ab.LoadAsset("soda.prefab") as GameObject;
+            GameObject sodabruh = ab.LoadAsset("bruh soda.prefab") as GameObject;
             ab.Unload(false);
-            //debug shit
             
-            
+            GameObject Orange = GameObject.Instantiate(orangeprefab);
+            LoadAssets.MakeGameObjectPickable(Orange);
             GameObject peasbruh = GameObject.Instantiate(peas);
             LoadAssets.MakeGameObjectPickable(peasbruh);
             GameObject fishsticks = GameObject.Instantiate(fishsticc);
@@ -45,9 +49,6 @@ namespace FoodOverhaul
             LoadAssets.MakeGameObjectPickable(cola);
             GameObject soda = GameObject.Instantiate(sodabruh);
             LoadAssets.MakeGameObjectPickable(soda);
-
-
-
         }
 
         public override void ModSettings()
@@ -62,15 +63,9 @@ namespace FoodOverhaul
             // Serialize your save file here.
         }
 
-        public override void OnGUI()
-        {
+        //public override void OnGUI()
+        //{
             // Draw unity OnGUI() here
-        }
-
-        public override void Update()
-        {
-            // Update is called once per frame
-        }
-
+        //}
     }
 }
