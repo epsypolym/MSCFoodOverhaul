@@ -32,15 +32,12 @@ namespace FoodOverhaul
 
             //delet zone over
             AssetBundle ab = LoadAssets.LoadBundle(this, "foodoverhaul.unity3d");
-            GameObject orangeprefab = ab.LoadAsset("orange.prefab") as GameObject;
             GameObject peas = ab.LoadAsset("canned pea soup.prefab") as GameObject;
             GameObject fishsticc = ab.LoadAsset("fish sticks.prefab") as GameObject;
             GameObject colabruh = ab.LoadAsset("cola.prefab") as GameObject;
-            GameObject sodabruh = ab.LoadAsset("bruh soda.prefab") as GameObject;
+            GameObject sodabruh = ab.LoadAsset("soda.prefab") as GameObject;
             ab.Unload(false);
             
-            GameObject Orange = GameObject.Instantiate(orangeprefab);
-            LoadAssets.MakeGameObjectPickable(Orange);
             GameObject peasbruh = GameObject.Instantiate(peas);
             LoadAssets.MakeGameObjectPickable(peasbruh);
             GameObject fishsticks = GameObject.Instantiate(fishsticc);
