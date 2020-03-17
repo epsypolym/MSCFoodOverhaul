@@ -8,7 +8,6 @@ namespace FoodOverhaul
     public class InteractionRaycast : MonoBehaviour
     {
         public RaycastHit hitInfo;
-        public GameObject playerObject;
         public GameObject bottleHolding;
         public GameObject handObject;
         public GameObject hackyworkaround;
@@ -22,9 +21,8 @@ namespace FoodOverhaul
         void Start()
         {
             isDrinking = false;
-            layerMask = LayerMask.GetMask("Parts","Wheel");
+            layerMask = LayerMask.GetMask("Parts");
             hitInfo = new RaycastHit();
-            playerObject = GameObject.Find("PLAYER");
             bottleHolding = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Drink/Hand/HandBottles/hand_rigged");
             handObject = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Drink/Hand");
             hackyworkaround = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Drink/Hand/HandBottles");
