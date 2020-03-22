@@ -8,7 +8,6 @@ namespace FoodOverhaul
     {
         public GameObject item;
         public int amount;
-
         InteractionRaycast foodInteraction;
         Collider selfCollider;
         FsmBool GUIuse;
