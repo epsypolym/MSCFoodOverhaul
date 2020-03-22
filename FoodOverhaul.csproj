@@ -51,7 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContainerBehavior.cs" />
+    <Compile Include="PourableBehavior.cs" />
+    <Compile Include="ToolContainerBehavior.cs" />
+    <Compile Include="UseContainerBehavior.cs" />
     <Compile Include="DrinkBehavior.cs" />
     <Compile Include="FoodBehavior.cs" />
     <Compile Include="FoodOverhaul.cs" />

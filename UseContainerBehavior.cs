@@ -4,7 +4,7 @@ using HutongGames.PlayMaker;
 
 namespace FoodOverhaul
 {
-    public class ContainerBehavior : MonoBehaviour
+    public class UseContainerBehavior : MonoBehaviour
     {
         public GameObject item;
         public int amount;

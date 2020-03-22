@@ -17,6 +17,7 @@ namespace FoodOverhaul
         public static InteractionRaycast foodInteraction;
         public static FsmBool GUIuse;
         public static GameObject PLAYER;
+        public static int gameToolID;
 
         public override void OnNewGame()
         {

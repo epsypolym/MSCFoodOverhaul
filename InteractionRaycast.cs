@@ -14,7 +14,7 @@ namespace FoodOverhaul
         public bool isDrinking;
 
         public bool hasHit = false;
-        public float rayDistance = 1.35f;
+        public float rayDistance = 1f;
         public int layerMask;
         
         // Use this for initialization
