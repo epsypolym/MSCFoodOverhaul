@@ -9,16 +9,17 @@ namespace FoodOverhaul
         public GameObject item;
         public int amount;
         public int stepCount;
-        public int toolID;
+        public float toolID;
         public GameObject lid;
 
         InteractionRaycast foodInteraction;
         Collider selfCollider;
         FsmBool GUIuse;
-        int gameToolID;
+        FsmFloat gameToolID;
 
         bool mouseOver = false;
-        bool toolMode = false;
+        
+        
 
         // Use this for initialization
         void Start()
@@ -34,12 +35,12 @@ namespace FoodOverhaul
         {
             if (stepCount > 0)
             {
-                if (foodInteraction.GetHit(selfCollider) & toolMode & (toolID == gameToolID))
+                if (foodInteraction.GetHit(selfCollider) & gameToolID.Value > 0f & toolID == gameToolID.Value)
                 {
                     mouseOver = true;
                     GUIuse.Value = true;
 
-                    if (Input.GetKeyDown(KeyCode.F)) openStep();
+                    if (Input.GetAxis("Mouse ScrollWheel") < 0f) openStep();
                 }
                 else if (mouseOver)
                 {
@@ -56,7 +57,7 @@ namespace FoodOverhaul
         void openStep()
         {
             stepCount -= 1;
-            transform.rotation.SetEulerAngles(transform.rotation.eulerAngles + new Vector3(0, 20, 0));
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 20, 0));
         }
 
         void openEvent()

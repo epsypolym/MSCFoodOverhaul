@@ -17,7 +17,7 @@ namespace FoodOverhaul
         public static InteractionRaycast foodInteraction;
         public static FsmBool GUIuse;
         public static GameObject PLAYER;
-        public static int gameToolID;
+        public static FsmFloat gameToolID;
 
         public override void OnNewGame()
         {
@@ -30,6 +30,7 @@ namespace FoodOverhaul
             foodInteraction = PLAYER.AddComponent<InteractionRaycast>();
             PLAYER.AddComponent<PlayerFoodSystems>();
             GUIuse = PlayMakerGlobals.Instance.Variables.GetFsmBool("GUIuse");
+            gameToolID = PlayMakerGlobals.Instance.Variables.GetFsmFloat("ToolWrenchSize");
 
             //delet zone over
             AssetBundle ab = LoadAssets.LoadBundle(this, "foodoverhaul.unity3d");
@@ -37,6 +38,7 @@ namespace FoodOverhaul
             GameObject fishsticc = ab.LoadAsset("fish sticks.prefab") as GameObject;
             GameObject colabruh = ab.LoadAsset("cola.prefab") as GameObject;
             GameObject sodabruh = ab.LoadAsset("soda.prefab") as GameObject;
+            GameObject testbruh = ab.LoadAsset("openable can prototype.prefab") as GameObject;
             ab.Unload(false);
             
             GameObject peasbruh = GameObject.Instantiate(peas);
@@ -47,6 +49,8 @@ namespace FoodOverhaul
             LoadAssets.MakeGameObjectPickable(cola);
             GameObject soda = GameObject.Instantiate(sodabruh);
             LoadAssets.MakeGameObjectPickable(soda);
+            GameObject testytest = GameObject.Instantiate(testbruh);
+            LoadAssets.MakeGameObjectPickable(testytest);
         }
 
         public override void ModSettings()
