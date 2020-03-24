@@ -11,15 +11,12 @@ namespace FoodOverhaul
         public int stepCount;
         public float toolID;
         public GameObject lid;
+        bool mouseOver = false;
 
         InteractionRaycast foodInteraction;
         Collider selfCollider;
         FsmBool GUIuse;
         FsmFloat gameToolID;
-
-        bool mouseOver = false;
-        
-        
 
         // Use this for initialization
         void Start()
@@ -48,9 +45,16 @@ namespace FoodOverhaul
                     GUIuse.Value = false;
                 }
             }
-            else
+            else if (foodInteraction.GetHit(selfCollider))
             {
-                openEvent();
+                mouseOver = true;
+                GUIuse.Value = true;
+                if (Input.GetKeyDown(KeyCode.F)) openEvent();
+            }
+            else if (mouseOver)
+            {
+                mouseOver = false;
+                GUIuse.Value = false;
             }
         }
 
