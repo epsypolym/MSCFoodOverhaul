@@ -34,27 +34,22 @@ namespace FoodOverhaul
             {
                 if (foodInteraction.GetHit(selfCollider) & gameToolID.Value > 0f & toolID == gameToolID.Value)
                 {
-                    mouseOver = true;
-                    GUIuse.Value = true;
-
+                    mouseOver = GUIuse.Value = true;
                     if (Input.GetAxis("Mouse ScrollWheel") < 0f) openStep();
                 }
                 else if (mouseOver)
                 {
-                    mouseOver = false;
-                    GUIuse.Value = false;
+                    mouseOver = GUIuse.Value = false;
                 }
             }
             else if (foodInteraction.GetHit(selfCollider))
             {
-                mouseOver = true;
-                GUIuse.Value = true;
+                mouseOver = GUIuse.Value = true;
                 if (Input.GetKeyDown(KeyCode.F)) openEvent();
             }
             else if (mouseOver)
             {
-                mouseOver = false;
-                GUIuse.Value = false;
+                mouseOver = GUIuse.Value = false;
             }
         }
 
