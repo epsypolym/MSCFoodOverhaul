@@ -2,6 +2,8 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FoodOverhaul
 {
@@ -10,7 +12,19 @@ namespace FoodOverhaul
         public enum MovingMode { Still, Walking, Sitting, InCar, CarryingShopBag, Sauna, Shower };
         public MovingMode movingMode = MovingMode.Still;
 
-        public float CalorieValue = 3000;
+        public Nutrition Calorie = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Calorie,
+            amount = 3000,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 3000
+        };
+
+        private List<Nutrition> nutritions = new List<Nutrition>();
+
+        // -> these will be updated to use Nutrition -class
         public float ProteinValue = 91;
         public float GlucoseValue;
         public float CalciumValue;
@@ -25,14 +39,16 @@ namespace FoodOverhaul
 
         private float PlayerWalkingSpeed = 0;
         private float TotalDecreaseRate = 1;
-        public float CalorieMultiplier = 0.01f;
 
         private CharacterController controller;
 
         void Start()
         {
-            controller = FoodOverhaul.PLAYER.GetComponent<CharacterController>();
-            StartCoroutine(UpdateCalories());
+            // add nutritions to list
+            nutritions.Add(Calorie);
+        
+            controller = FoodOverhaul.PLAYER.GetComponent<CharacterController>(); // get player
+            StartCoroutine(UpdateCalories()); // start calories update loop
         }
 
         IEnumerator UpdateCalories()
@@ -41,7 +57,7 @@ namespace FoodOverhaul
             while(!finished)
             {
                 UpdateCalorieValue();
-                new WaitForSeconds(1);
+                new WaitForSeconds(1); // update frequency in seconds
                 yield return null;
             }
         }
@@ -50,9 +66,11 @@ namespace FoodOverhaul
         {
             float totalUsedCalories = UnityEngine.Random.Range(132, 147); // standing
 
+            // get player moving speed
             if (controller)
                 PlayerWalkingSpeed = controller.velocity.magnitude;
 
+            // get player current action (wip)
             if (PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerComputer").Value)
                 movingMode = MovingMode.Sitting;
             else if (PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerCarControl").Value)
@@ -60,13 +78,17 @@ namespace FoodOverhaul
             else
                 movingMode = MovingMode.Sitting;
 
-            totalUsedCalories = GetTotalUsedCalories(movingMode, totalUsedCalories);
-            CalorieValue -= ( (PlayerWalkingSpeed < 1 ? 1 : PlayerWalkingSpeed) * TotalDecreaseRate * Time.deltaTime ) * totalUsedCalories;
+            // calculate total used calories (per second)
+            totalUsedCalories = GetTotalUsedCalories(movingMode, Calorie);
+            // set calories absorption rate
+            Calorie.absorptionRate = ((PlayerWalkingSpeed < 1 ? 1 : PlayerWalkingSpeed) * TotalDecreaseRate) * Time.deltaTime;
+            // calculate calories absorption
+            Calorie.CalculateAbsorption();
         }
 
-        float GetTotalUsedCalories(MovingMode movingMode, float originalValue)
+        float GetTotalUsedCalories(MovingMode movingMode, Nutrition calorie)
         {
-            float _ogValue = originalValue;
+            float _ogValue = calorie.amount;
             switch(movingMode)
             {
                 case MovingMode.Sitting:
@@ -76,20 +98,26 @@ namespace FoodOverhaul
                     _ogValue = UnityEngine.Random.Range(114, 121);
                     break;
                 default:
-                    _ogValue = originalValue;
+                    _ogValue = calorie.amount;
                     break;
             }
-            return _ogValue * CalorieMultiplier;
+            return _ogValue * calorie.amountMultiplier;
+        }
+
+        public void AddNutritionValue(Nutrition.NutritionType nutritionType, float value)
+        {
+            Nutrition n = nutritions.Where(x => x.nutritionType == nutritionType).FirstOrDefault() as Nutrition;
+            if(n != null)
+                n.AddAmount(value);
         }
 
         private void OnGUI()
         {
             GUILayout.BeginArea(new Rect(30, 30, 500, 500));
-            GUILayout.Label("Calories: " + CalorieValue);
+            GUILayout.Label("Calories: " + Calorie.amount);
             GUILayout.Label("Proteins: " + ProteinValue);
             GUILayout.Label("PlayerWalkingSpeed: " + PlayerWalkingSpeed);
             GUILayout.EndArea();
         }
-
     }
 }

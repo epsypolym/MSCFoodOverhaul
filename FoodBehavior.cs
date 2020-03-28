@@ -53,16 +53,19 @@ namespace FoodOverhaul
         void Consume()
         {
             //very epic beautiful code <3 thanks ajongl
-            pfd.CalorieValue += CalorieValue;
-            pfd.ProteinValue += ProteinValue;
-            pfd.GlucoseValue += GlucoseValue;
-            pfd.CalciumValue += CalciumValue;
-            pfd.ZincValue += ZincValue;
-            pfd.ChromiumValue += ChromiumValue;
-            pfd.IronValue += IronValue;
-            pfd.VitaminBValue += VitaminBValue;
-            pfd.VitaminCValue += VitaminCValue;
-            pfd.VitaminDValue += CalorieValue;
+            if (CalorieValue != 0)
+                pfd.AddNutritionValue(Nutrition.NutritionType.Calorie, CalorieValue);
+
+            //pfd.CalorieValue += CalorieValue;
+            //pfd.ProteinValue += ProteinValue;
+            //pfd.GlucoseValue += GlucoseValue;
+            //pfd.CalciumValue += CalciumValue;
+            //pfd.ZincValue += ZincValue;
+            //pfd.ChromiumValue += ChromiumValue;
+            //pfd.IronValue += IronValue;
+            //pfd.VitaminBValue += VitaminBValue;
+            //pfd.VitaminCValue += VitaminCValue;
+            //pfd.VitaminDValue += CalorieValue;
             GameObject.Destroy(gameObject);
         }
     }

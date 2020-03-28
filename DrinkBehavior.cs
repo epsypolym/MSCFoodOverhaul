@@ -17,7 +17,7 @@ namespace FoodOverhaul
         InteractionRaycast foodInteraction;
         Rigidbody rigidbody;
         Collider selfCollider;
-        PlayerFoodSystems pfd;
+        PlayerFoodSystems pfs;
         FsmBool GUIuse;
         AudioSource audio;
 
@@ -30,7 +30,7 @@ namespace FoodOverhaul
             GUIuse = FoodOverhaul.GUIuse;
             rigidbody = GetComponent<Rigidbody>();
             selfCollider = GetComponent<Collider>();
-            pfd = FoodOverhaul.PLAYER.GetComponent<PlayerFoodSystems>();
+            pfs = FoodOverhaul.PLAYER.GetComponent<PlayerFoodSystems>();
             audio = GetComponent<AudioSource>();
         }
 
@@ -54,9 +54,10 @@ namespace FoodOverhaul
         }
 
         void Drink()
-        {         
-            pfd.CalorieValue += CalorieValue;
-            pfd.ThirstVolume += Volume;
+        {
+            if (CalorieValue != 0)
+                pfs.AddNutritionValue(Nutrition.NutritionType.Calorie, CalorieValue);
+            pfs.ThirstVolume += Volume;
             audio.Play();
             StartCoroutine(DrinkEvent());                   
         }
