@@ -13,6 +13,7 @@ namespace FoodOverhaul
         public enum MovingMode { Still, Walking, Sitting, Driving, CarryingShopBag, Sauna, Shower, Swimming };
         public MovingMode movingMode = MovingMode.Still;
 
+        #region Nutritions
         public Nutrition Calorie = new Nutrition()
         {
             nutritionType = Nutrition.NutritionType.Calorie,
@@ -23,18 +24,118 @@ namespace FoodOverhaul
             amountPerDay = 3000
         };
 
-        private List<Nutrition> nutritions = new List<Nutrition>();
+        public Nutrition Protein = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Protein,
+            amount = 91,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 91
+        };
 
-        // -> these will be updated to use Nutrition -class
-        public float ProteinValue = 91;
-        public float GlucoseValue;
-        public float CalciumValue;
-        public float ZincValue;
-        public float ChromiumValue;
-        public float IronValue;
-        public float VitaminBValue;
-        public float VitaminCValue;
-        public float VitaminDValue;
+        public Nutrition Sugar = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Sugar,
+            amount = 120,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 120
+        };
+
+        public Nutrition Carbohydrate = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Carbohydrate,
+            amount = 400,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 400
+        };
+
+        public Nutrition Sodium = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Sodium,
+            amount = 5,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 5
+        };
+
+        public Nutrition Calcium = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Calcium,
+            amount = 0.8f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.8f
+        };
+
+        public Nutrition Zinc = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Zinc,
+            amount = 0.25f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.25f
+        };
+
+        public Nutrition Chromium = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Chromium,
+            amount = 0.40f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.40f
+        };
+
+        public Nutrition Iron = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.Iron,
+            amount = 0.09f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.09f
+        };
+
+        public Nutrition VitaminB = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.VitaminB,
+            amount = 0.02f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.02f
+        };
+
+        public Nutrition VitaminC = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.VitaminC,
+            amount = 0.75f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.75f
+        };
+
+        public Nutrition VitaminD = new Nutrition()
+        {
+            nutritionType = Nutrition.NutritionType.VitaminD,
+            amount = 0.10f,
+            amountMultiplier = 1,
+            absorptionRate = 0,
+            absorptionRateMultiplier = 1,
+            amountPerDay = 0.10f
+        };
+
+        private List<Nutrition> nutritions = new List<Nutrition>();
+        #endregion
 
         public float ThirstVolume;
 
@@ -55,6 +156,17 @@ namespace FoodOverhaul
         {
             // add nutritions to list
             nutritions.Add(Calorie);
+            nutritions.Add(Protein);
+            nutritions.Add(Sugar);
+            nutritions.Add(Carbohydrate);
+            nutritions.Add(Sodium);
+            nutritions.Add(Calcium);
+            nutritions.Add(Zinc);
+            nutritions.Add(Chromium);
+            nutritions.Add(Iron);
+            nutritions.Add(VitaminB);
+            nutritions.Add(VitaminC);
+            nutritions.Add(VitaminD);
 
             controller = FoodOverhaul.PLAYER.GetComponent<CharacterController>(); // get player
 
@@ -65,10 +177,10 @@ namespace FoodOverhaul
             ShowerObject = GameObject.Find("YARD").transform.Find("Building/BATHROOM/Shower/Shower");
             ShowerDistance = ShowerObject.GetComponents<PlayMakerFSM>().Where(x => x.FsmName == "Distance").FirstOrDefault().FsmVariables.GetFsmFloat("Distance") as FsmFloat;
 
-            StartCoroutine(UpdateCalories()); // start calories update loop
+            StartCoroutine(UpdateNutritions()); // start calories update loop
         }
 
-        IEnumerator UpdateCalories()
+        IEnumerator UpdateNutritions()
         {
             bool finished = false;
             while(!finished)
@@ -104,6 +216,12 @@ namespace FoodOverhaul
             Calorie.CalculateAbsorption();
         }
 
+        /// <summary>
+        /// Returns total used calories per second depending on Player actions.
+        /// </summary>
+        /// <param name="movingMode"></param>
+        /// <param name="calorie"></param>
+        /// <returns></returns>
         float GetTotalUsedCalories(MovingMode movingMode, Nutrition calorie)
         {
             float _ogValue = calorie.amount;
@@ -134,11 +252,56 @@ namespace FoodOverhaul
             return _ogValue * calorie.amountMultiplier;
         }
 
+        /// <summary>
+        /// Add single Nutrition value to PlayerFoodSystem
+        /// </summary>
+        /// <param name="nutritionType"></param>
+        /// <param name="value"></param>
         public void AddNutritionValue(Nutrition.NutritionType nutritionType, float value)
         {
             Nutrition n = nutritions.Where(x => x.nutritionType == nutritionType).FirstOrDefault() as Nutrition;
             if(n != null)
                 n.AddAmount(value);
+        }
+
+        /// <summary>
+        /// Add all Nutrition values from food to PlayerFood System
+        /// </summary>
+        /// <param name="foodBehavior"></param>
+        public void AddNutritionValues(FoodBehavior foodBehavior)
+        {
+            AddNutritionValue(Nutrition.NutritionType.Calorie, foodBehavior.CalorieValue);
+            AddNutritionValue(Nutrition.NutritionType.Protein, foodBehavior.ProteinValue);
+            AddNutritionValue(Nutrition.NutritionType.Sugar, foodBehavior.SugarValue);
+            AddNutritionValue(Nutrition.NutritionType.Carbohydrate, foodBehavior.CarbohydrateValue);
+            AddNutritionValue(Nutrition.NutritionType.Sodium, foodBehavior.SodiumValue);
+            AddNutritionValue(Nutrition.NutritionType.Calcium, foodBehavior.CalciumValue);
+            AddNutritionValue(Nutrition.NutritionType.Zinc, foodBehavior.ZincValue);
+            AddNutritionValue(Nutrition.NutritionType.Chromium, foodBehavior.ChromiumValue);
+            AddNutritionValue(Nutrition.NutritionType.Iron, foodBehavior.IronValue);
+            AddNutritionValue(Nutrition.NutritionType.VitaminB, foodBehavior.VitaminBValue);
+            AddNutritionValue(Nutrition.NutritionType.VitaminC, foodBehavior.VitaminCValue);
+            AddNutritionValue(Nutrition.NutritionType.VitaminD, foodBehavior.VitaminDValue);
+        }
+
+        /// <summary>
+        /// Add all Nutrition values from drink to PlayerFood System
+        /// </summary>
+        /// <param name="drinkBehavior"></param>
+        public void AddNutritionValues(DrinkBehavior drinkBehavior)
+        {
+            AddNutritionValue(Nutrition.NutritionType.Calorie, drinkBehavior.CalorieValue);
+            AddNutritionValue(Nutrition.NutritionType.Protein, drinkBehavior.ProteinValue);
+            AddNutritionValue(Nutrition.NutritionType.Sugar, drinkBehavior.SugarValue);
+            AddNutritionValue(Nutrition.NutritionType.Carbohydrate, drinkBehavior.CarbohydrateValue);
+            AddNutritionValue(Nutrition.NutritionType.Sodium, drinkBehavior.SodiumValue);
+            AddNutritionValue(Nutrition.NutritionType.Calcium, drinkBehavior.CalciumValue);
+            AddNutritionValue(Nutrition.NutritionType.Zinc, drinkBehavior.ZincValue);
+            AddNutritionValue(Nutrition.NutritionType.Chromium, drinkBehavior.ChromiumValue);
+            AddNutritionValue(Nutrition.NutritionType.Iron, drinkBehavior.IronValue);
+            AddNutritionValue(Nutrition.NutritionType.VitaminB, drinkBehavior.VitaminBValue);
+            AddNutritionValue(Nutrition.NutritionType.VitaminC, drinkBehavior.VitaminCValue);
+            AddNutritionValue(Nutrition.NutritionType.VitaminD, drinkBehavior.VitaminDValue);
         }
 
         void UpdateCurrentMovingMode()
@@ -196,13 +359,15 @@ namespace FoodOverhaul
                 currentVehicleName = currentVehicle.name;
 
             GUILayout.BeginArea(new Rect(30, 30, 500, 500));
-            GUILayout.Label("Calories: " + Calorie.amount);
-            GUILayout.Label("Proteins: " + ProteinValue);
             GUILayout.Label("PlayerWalkingSpeed: " + PlayerWalkingSpeed);
             GUILayout.Label("CurrentVehicle: " + currentVehicleName);
             GUILayout.Label("PlayerInWater: " + PlayerInWater.Value.ToString());
             GUILayout.Label("PlayerCrouchPos: " + CrouchPosition.Value.ToString());
             GUILayout.Label("MovingMode: " + movingMode.ToString());
+
+            foreach(Nutrition n in nutritions)
+                GUILayout.Label(n.nutritionType.ToString() + ": amount: " + n.amount + ", absorptionRate: " + n.absorptionRate);
+
             GUILayout.EndArea();
         }
     }
