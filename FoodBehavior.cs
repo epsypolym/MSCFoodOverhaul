@@ -19,7 +19,7 @@ namespace FoodOverhaul
 
         InteractionRaycast foodInteraction;
         Collider selfCollider;
-        PlayerFoodSystems pfd;
+        PlayerFoodSystems pfs;
         FsmBool GUIuse;
 
         bool mouseOver = false;
@@ -30,7 +30,7 @@ namespace FoodOverhaul
             foodInteraction = FoodOverhaul.foodInteraction;
             GUIuse = FoodOverhaul.GUIuse;
             selfCollider = GetComponent<Collider>();
-            pfd = FoodOverhaul.PLAYER.GetComponent<PlayerFoodSystems>();
+            pfs = FoodOverhaul.PLAYER.GetComponent<PlayerFoodSystems>();
         }
 
         // Update is called once per frame
@@ -54,18 +54,18 @@ namespace FoodOverhaul
         {
             //very epic beautiful code <3 thanks ajongl
             if (CalorieValue != 0)
-                pfd.AddNutritionValue(Nutrition.NutritionType.Calorie, CalorieValue);
+                pfs.AddNutritionValue(Nutrition.NutritionType.Calorie, CalorieValue);
 
-            //pfd.CalorieValue += CalorieValue;
-            //pfd.ProteinValue += ProteinValue;
-            //pfd.GlucoseValue += GlucoseValue;
-            //pfd.CalciumValue += CalciumValue;
-            //pfd.ZincValue += ZincValue;
-            //pfd.ChromiumValue += ChromiumValue;
-            //pfd.IronValue += IronValue;
-            //pfd.VitaminBValue += VitaminBValue;
-            //pfd.VitaminCValue += VitaminCValue;
-            //pfd.VitaminDValue += CalorieValue;
+            //pfs.CalorieValue += CalorieValue;
+            //pfs.ProteinValue += ProteinValue;
+            //pfs.GlucoseValue += GlucoseValue;
+            //pfs.CalciumValue += CalciumValue;
+            //pfs.ZincValue += ZincValue;
+            //pfs.ChromiumValue += ChromiumValue;
+            //pfs.IronValue += IronValue;
+            //pfs.VitaminBValue += VitaminBValue;
+            //pfs.VitaminCValue += VitaminCValue;
+            //pfs.VitaminDValue += CalorieValue;
             GameObject.Destroy(gameObject);
         }
     }
