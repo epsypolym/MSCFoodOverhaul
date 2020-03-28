@@ -8,7 +8,9 @@ namespace FoodOverhaul
     {
         public float CalorieValue;
         public float ProteinValue;
-        public float GlucoseValue;
+        public float SugarValue;
+        public float CarbohydrateValue;
+        public float SodiumValue;
         public float CalciumValue;
         public float ZincValue;
         public float ChromiumValue;
@@ -52,20 +54,7 @@ namespace FoodOverhaul
 
         void Consume()
         {
-            //very epic beautiful code <3 thanks ajongl
-            if (CalorieValue != 0)
-                pfs.AddNutritionValue(Nutrition.NutritionType.Calorie, CalorieValue);
-
-            //pfs.CalorieValue += CalorieValue;
-            //pfs.ProteinValue += ProteinValue;
-            //pfs.GlucoseValue += GlucoseValue;
-            //pfs.CalciumValue += CalciumValue;
-            //pfs.ZincValue += ZincValue;
-            //pfs.ChromiumValue += ChromiumValue;
-            //pfs.IronValue += IronValue;
-            //pfs.VitaminBValue += VitaminBValue;
-            //pfs.VitaminCValue += VitaminCValue;
-            //pfs.VitaminDValue += CalorieValue;
+            pfs.AddNutritionValues(this);
             GameObject.Destroy(gameObject);
         }
     }

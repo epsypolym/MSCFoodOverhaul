@@ -8,6 +8,18 @@ namespace FoodOverhaul
     public class DrinkBehavior : MonoBehaviour
     {
         public float CalorieValue;
+        public float ProteinValue;
+        public float SugarValue;
+        public float CarbohydrateValue;
+        public float SodiumValue;
+        public float CalciumValue;
+        public float ZincValue;
+        public float ChromiumValue;
+        public float IronValue;
+        public float VitaminBValue;
+        public float VitaminCValue;
+        public float VitaminDValue;
+
         public float Volume;
         public Vector3 inhandpos;
         public Quaternion inhandrot;
@@ -55,8 +67,7 @@ namespace FoodOverhaul
 
         void Drink()
         {
-            if (CalorieValue != 0)
-                pfs.AddNutritionValue(Nutrition.NutritionType.Calorie, CalorieValue);
+            pfs.AddNutritionValues(this);
             pfs.ThirstVolume += Volume;
             audio.Play();
             StartCoroutine(DrinkEvent());                   
