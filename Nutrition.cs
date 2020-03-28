@@ -9,7 +9,7 @@ namespace FoodOverhaul
     [System.Serializable]
     public class Nutrition
     {
-        public enum NutritionType { Calorie, Protein, Glucose, Calcium, Zinc, Chromium, Iron, VitaminB, VitaminC, VitaminD, BloodSugar, Carbohydrate };
+        public enum NutritionType { Calorie, Protein, Sugar, Calcium, Zinc, Chromium, Iron, VitaminB, VitaminC, VitaminD,  Carbohydrate, Sodium };
        
         public NutritionType nutritionType;
         public float amount; // in body
