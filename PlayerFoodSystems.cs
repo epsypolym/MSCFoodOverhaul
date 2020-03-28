@@ -306,10 +306,6 @@ namespace FoodOverhaul
 
         void UpdateCurrentMovingMode()
         {
-            // get player moving speed
-            if (controller)
-                PlayerWalkingSpeed = controller.velocity.magnitude;
-
             // Player is Swimming
             if (PlayerInWater.Value)
                 movingMode = MovingMode.Swimming;
@@ -350,6 +346,11 @@ namespace FoodOverhaul
             // Player is in Shower
             if (ShowerDistance.Value < 0.2f && ShowerObject.gameObject.activeSelf)
                 movingMode = MovingMode.Shower;
+
+            // get player moving speed
+            // set walking speed to zero if we are driving vehicle or sitting
+            if (controller)
+                PlayerWalkingSpeed = (movingMode == MovingMode.Driving || movingMode == MovingMode.Sitting) ? 0 : controller.velocity.magnitude;
         }
 
         private void OnGUI()
